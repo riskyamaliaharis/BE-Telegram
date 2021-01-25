@@ -57,6 +57,40 @@ module.exports = {
       return helper.response(response, 400, "Bad Request", error);
     }
   },
+  makeRoomChatForFriend: async (request, response) => {
+    try {
+      const { user_a, user_b, room_random_number } = request.body;
+
+      const checkThisRoom = await checkThisRoomModel(user_a, user_b);
+
+      if (checkThisRoom > 0) {
+        return helper.response(
+          response,
+          400,
+          "Sorry, This Room has been listed"
+        );
+      } else {
+        const setData = {
+          room_random_number,
+          user_a,
+          user_b,
+          created_at: new Date(),
+        };
+
+        const result = await makeRoomChatModel(setData);
+        console.log(result);
+        return helper.response(
+          response,
+          200,
+          "Success Add to Room List",
+          result
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
   getRoomChat: async (request, response) => {
     try {
       const { id } = request.params;
