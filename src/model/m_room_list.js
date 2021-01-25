@@ -19,6 +19,16 @@ module.exports = {
       );
     });
   },
+  checkThisRoomModel: (user_a, user_b) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) AS total FROM room_chat WHERE user_a=${user_a} AND user_b=${user_b}`,
+        (error, result) => {
+          !error ? resolve(result[0].total) : reject(new Error(error));
+        }
+      );
+    });
+  },
   deleteRoomChatModel: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(

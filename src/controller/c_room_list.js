@@ -4,6 +4,7 @@ const {
   makeRoomChatModel,
   deleteRoomChatModel,
   getRoomChatModel,
+  checkThisRoomModel,
 } = require("../model/m_room_list");
 
 module.exports = {
@@ -11,23 +12,39 @@ module.exports = {
     try {
       const { user_a, user_b } = request.body;
 
-      const maximum = 4;
-      const minimum = 1;
-      const randomnumber = Math.floor(
-        Math.random() * 10000 - minimum / (maximum - minimum)
-      );
+      const checkThisRoom = await checkThisRoomModel(user_a, user_b);
 
-      console.log(randomnumber);
+      if (checkThisRoom > 0) {
+        return helper.response(
+          response,
+          400,
+          "Sorry, This Room has been listed"
+        );
+      } else {
+        const maximum = 4;
+        const minimum = 1;
+        const randomnumber = Math.floor(
+          Math.random() * 10000 - minimum / (maximum - minimum)
+        );
 
-      const setData = {
-        room_random_number: randomnumber,
-        user_a,
-        user_b,
-        created_at: new Date(),
-      };
+        console.log(randomnumber);
 
-      const result = await makeRoomChatModel(setData);
-      console.log(result);
+        const setData = {
+          room_random_number: randomnumber,
+          user_a,
+          user_b,
+          created_at: new Date(),
+        };
+
+        const result = await makeRoomChatModel(setData);
+        console.log(result);
+        return helper.response(
+          response,
+          200,
+          "Success Add to Room List",
+          result
+        );
+      }
       //   const setData2 = {
       //     room_random_number: result.room_random_number,
       //     user_a:result.user_b,
@@ -35,7 +52,6 @@ module.exports = {
       //     created_at: result.created_at,
       //   };
       //   const result2 = await makeRoomChatModel(setData2);
-      return helper.response(response, 200, "Success Add to Room List", result);
     } catch (error) {
       console.log(error);
       return helper.response(response, 400, "Bad Request", error);
