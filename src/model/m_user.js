@@ -51,10 +51,10 @@ module.exports = {
   countDataId: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        "SELECT COUNT(*) FROM user WHERE user_id = ?",
+        "SELECT COUNT(*) as total FROM user WHERE user_id = ?",
         id,
         (error, result) => {
-          !error ? resolve(result) : reject(new Error(error));
+          !error ? resolve(result[0].total) : reject(new Error(error));
         }
       );
     });
