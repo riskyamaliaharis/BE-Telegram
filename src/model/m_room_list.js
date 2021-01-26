@@ -19,6 +19,7 @@ module.exports = {
       );
     });
   },
+
   checkThisRoomModel: (user_a, user_b) => {
     return new Promise((resolve, reject) => {
       connection.query(
@@ -32,9 +33,39 @@ module.exports = {
   deleteRoomChatModel: (id) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `DELETE FROM room_chat WHERE room_id =${id}`,
+        `DELETE FROM room_chat WHERE room_random_number =${id}`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  deleteAllChatModel: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `DELETE FROM chat WHERE room_random_number =${id}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  checkListModelByRandomNumber: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) AS total FROM room_chat WHERE room_random_number =${id}`,
+        (error, result) => {
+          !error ? resolve(result[0].total) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  checkChatModelByRandomNumber: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT COUNT(*) AS total FROM chat WHERE room_random_number =${id}`,
+        (error, result) => {
+          !error ? resolve(result[0].total) : reject(new Error(error));
         }
       );
     });

@@ -5,6 +5,9 @@ const {
   deleteRoomChatModel,
   getRoomChatModel,
   checkThisRoomModel,
+  checkChatModelByRandomNumber,
+  checkListModelByRandomNumber,
+  deleteAllChatModel,
 } = require("../model/m_room_list");
 
 module.exports = {
@@ -101,6 +104,29 @@ module.exports = {
         `Success get Room Chat list`,
         result
       );
+    } catch (error) {
+      console.log(error);
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  deleteChat: async (request, response) => {
+    try {
+      const { rand } = request.params;
+      const check1 = await checkListModelByRandomNumber(rand);
+      const check2 = await checkChatModelByRandomNumber(rand);
+      if (check1 > 0) {
+        const result = deleteRoomChatModel(rand);
+        return helper.response(
+          response,
+          200,
+          `Success delete Room Chat list`,
+          result
+        );
+      }
+      if (check2 > 0) {
+        const result2 = deleteAllChatModel(rand);
+        console.log(result2);
+      }
     } catch (error) {
       console.log(error);
       return helper.response(response, 400, "Bad Request", error);
