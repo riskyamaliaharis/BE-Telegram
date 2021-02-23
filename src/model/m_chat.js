@@ -36,4 +36,14 @@ module.exports = {
       );
     });
   },
+  sendLastMessage: (rands, msg) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `UPDATE room_chat SET last_message='${msg}', updated_at=NOW() WHERE room_random_number=${rands}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
 };

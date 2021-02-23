@@ -68,6 +68,7 @@ module.exports = {
   getFriends: async (request, response) => {
     try {
       const { id } = request.params;
+
       const result = await getFriendsModel(id);
       return helper.response(
         response,

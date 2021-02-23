@@ -69,7 +69,7 @@ module.exports = {
       if (checkThisRoom > 0) {
         return helper.response(
           response,
-          400,
+          200,
           "Sorry, This Room has been listed"
         );
       } else {
@@ -97,7 +97,8 @@ module.exports = {
   getRoomChat: async (request, response) => {
     try {
       const { id } = request.params;
-      const result = await getRoomChatModel(id);
+      const { search } = request.query;
+      const result = await getRoomChatModel(id, search);
       return helper.response(
         response,
         200,

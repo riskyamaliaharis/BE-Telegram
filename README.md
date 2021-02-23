@@ -4,7 +4,7 @@
 
 ## About This Project
 
-This project is web based application. This project called Telegram, that is a project chat application. This project is not arival of Telegram, of course. It just for implementing some new features for me like implementing GMap and Realtime Chat. It is so interesting. This project consists of 12 HTTP Requests. You can access it by the link below (in requirements part).
+This app called Telegram. It is not a rival of telegram of course, but just a simple project imitating concept of some chat applications like Telegram. Real time chat of this application is using Socket-io (in Backend) and socket.io-client(in Frontend). Showing Location is using API of Google Map. This project consists of 12 HTTP Requests. You can access it by the link below (in requirements part).
 
 ## Built With
 
@@ -34,7 +34,11 @@ This project is web based application. This project called Telegram, that is a p
 Open .env file on your favorite code editor, and copy paste this code below :
 
 ```
-DB_HOST=localhost // Database host
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=chat
+PORT=3000
 ```
 
 ## License

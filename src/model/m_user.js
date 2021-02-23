@@ -78,4 +78,24 @@ module.exports = {
       );
     });
   },
+  autoUpdateLocation: (loc, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `UPDATE user SET user_location='${loc}' WHERE user_id =${id}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
+  deletePhoto: (user_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `UPDATE user SET user_photo='' WHERE user_id =${user_id}`,
+        (error, result) => {
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
 };

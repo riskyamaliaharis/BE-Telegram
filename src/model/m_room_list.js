@@ -70,10 +70,13 @@ module.exports = {
       );
     });
   },
-  getRoomChatModel: (id_user) => {
+  getRoomChatModel: (id_user, user_name) => {
     return new Promise((resolve, reject) => {
+      const searching = user_name
+        ? `AND user.user_name LIKE '%${user_name}%'`
+        : "";
       connection.query(
-        `SELECT * FROM room_chat JOIN user ON room_chat.user_b = user.user_id WHERE room_chat.user_a =${id_user}`,
+        `SELECT * FROM room_chat JOIN user ON room_chat.user_b = user.user_id WHERE room_chat.user_a =${id_user} ${searching}`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }

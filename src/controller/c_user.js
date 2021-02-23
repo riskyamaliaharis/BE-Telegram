@@ -8,6 +8,8 @@ const {
   countDataId,
   updateUserModel,
   countUserModel,
+  autoUpdateLocation,
+  deletePhoto,
 } = require("../model/m_user");
 const fs = require("fs");
 
@@ -62,9 +64,14 @@ module.exports = {
           const payload = { user_id, user_name, user_email };
           const token = jwt.sign(payload, "privacy", { expiresIn: "3h" });
           const result = { ...payload, token };
-          return helper.response(response, 200, "Success Login  ", result);
+          return helper.response(
+            response,
+            200,
+            `Welcome, ${checkDataUser[0].user_name}`,
+            result
+          );
         } else {
-          return helper.response(response, 400, "Wrong Password", error);
+          return helper.response(response, 400, "Wrong Password");
         }
       } else {
         return helper.response(response, 400, "Email/Account not registered");
@@ -79,6 +86,7 @@ module.exports = {
       const result = await checkDataId(id);
       return helper.response(response, 200, "Success show your data", result);
     } catch (error) {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
@@ -138,6 +146,37 @@ module.exports = {
           throw err;
         } else console.log("Uploading image is canceled");
       });
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  autoUpdateLocation: async (request, response) => {
+    try {
+      const { user_location, user_id } = request.body;
+
+      const data = await checkDataId(user_id);
+      console.log(data[0]);
+      if (user_location === "" || user_location === null) {
+        user_location = data[0].user_location;
+      }
+      result = await autoUpdateLocation(user_location, user_id);
+      return helper.response(response, 200, "Location Updated");
+    } catch {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  deletePhoto: async (request, response) => {
+    try {
+      const { user_id } = request.params;
+      const data = await checkDataId(user_id);
+      fs.unlink(`uploads/users/${data[0].user_photo}`, async function (err) {
+        if (err) {
+          throw err;
+        } else {
+          result = await deletePhoto(user_id);
+          return helper.response(response, 200, "Photo has been deleted");
+        }
+      });
+    } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }
   },
