@@ -11,7 +11,15 @@ const socket = require("socket.io");
 
 const app = express();
 app.use(cors());
-app.use(express.static("uploads/"));
+app.use((request, response, next) => {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Request-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+app.use("/chatapi/uploadfile", express.static("uploads/"));
 // ==============================
 
 const http = require("http");
@@ -20,6 +28,7 @@ const io = socket(server, {
   cors: {
     origin: "*",
   },
+  path: "/chatapi/socket.io",
 });
 
 io.on("connection", (socket) => {
@@ -41,12 +50,11 @@ io.on("connection", (socket) => {
   });
 });
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-app.use("/", routerNavigation);
+app.use("/chatapi", routerNavigation);
 
 server.listen(process.env.PORT, () => {
   console.log("Listening on Port 3000");
