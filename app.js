@@ -33,18 +33,22 @@ const io = socket(server, {
 
 io.on("connection", (socket) => {
   socket.on("globalMessage", (data) => {
+    console.log("1");
     io.emit("chatMessage", data);
   });
   socket.on("joinRoom", (data) => {
+    console.log("2");
     console.log(data);
     socket.join(data.room);
   });
   socket.on("changeRoom", (data) => {
+    console.log("3");
     console.log(data);
     socket.leave(data.oldRoom);
     socket.join(data.room_chat);
   });
   socket.on("roomMessage", (data) => {
+    console.log("4");
     console.log(data);
     io.to(data.room_chat).emit("chatMessage", data);
   });

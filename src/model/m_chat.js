@@ -20,7 +20,6 @@ module.exports = {
       connection.query(
         `SELECT COUNT(*) AS total FROM chat WHERE room_random_number=${rands}`,
         (error, result) => {
-          console.log(result);
           !error ? resolve(result[0].total) : reject(new Error(error));
         }
       );
