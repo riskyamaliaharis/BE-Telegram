@@ -52,6 +52,19 @@ io.on("connection", (socket) => {
     console.log(data);
     io.to(data.room_chat).emit("chatMessage", data);
   });
+
+  socket.on("status", (data) => {
+    console.log("5");
+    console.log(data);
+    let newData = { status: "", room: "" };
+    newData.status = data.status;
+    for (let i = 0; i < data.room.length; i++) {
+      newData.room = data.room[i].room_random_number;
+      socket.broadcast
+        .to(data.room[i].room_random_number)
+        .emit("spreadStatus", newData);
+    }
+  });
 });
 
 app.use(bodyParser.json());

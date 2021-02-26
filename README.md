@@ -1,6 +1,10 @@
 <h1 align="center">ExpressJS - Telegram RESTfull API</h1>
 
-[More about Express](https://en.wikipedia.org/wiki/Express.js)
+<p align="center">
+    <a href="https://github.com/riskyamaliaharis/BE-Telegram/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/riskyamaliaharis/BE-Telegram/issues">Request Feature</a>
+  </p>
 
 ## About This Project
 
@@ -38,7 +42,7 @@ DB_HOST=localhost
 DB_USER=root
 DB_PASS=
 DB_NAME=chat
-PORT=3000
+PORT=3001
 ```
 
 ## License

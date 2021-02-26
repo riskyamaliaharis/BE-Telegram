@@ -8,6 +8,7 @@ const {
   changeMyFriendStatus,
   getFriendsWaitingModel,
   getFriendsWaitedModel,
+  confirmFriendModel,
 } = require("../model/m_friends");
 const { countUserModel } = require("../model/m_user");
 const fs = require("fs");
@@ -118,12 +119,21 @@ module.exports = {
       } else {
         return helper.response(
           response,
-          400,
+          200,
           `No invitation waited to confirmed`
         );
       }
     } catch (error) {
       console.log(error);
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  confirmFriend: async (request, response) => {
+    try {
+      const { user_id } = request.params;
+      const result = await confirmFriendModel(user_id);
+      return helper.response(response, 200, "confirm", result);
+    } catch (error) {
       return helper.response(response, 400, "Bad Request", error);
     }
   },

@@ -23,7 +23,7 @@ module.exports = {
   searchEmail: (user_email) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM user WHERE user_email LIKE '${user_email}'`,
+        `SELECT * FROM user WHERE user_email='${user_email}'`,
         (error, result) => {
           !error ? resolve(result) : reject(new Error(error));
         }
@@ -70,6 +70,17 @@ module.exports = {
           !error ? resolve(result) : reject(new Error(error));
         }
       );
+    });
+  },
+  confirmFriendModel: (id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT contacts.*, user.user_name, user.user_email, user.user_photo FROM contacts LEFT JOIN user ON contacts.user_id = user.user_id WHERE contacts.friend_status = 0 AND contacts.friend_id=${id}`
+      ),
+        (error, result) => {
+          console.log(result);
+          !error ? resolve(result) : reject(new Error(error));
+        };
     });
   },
   getFriendsWaitingModel: (id) => {

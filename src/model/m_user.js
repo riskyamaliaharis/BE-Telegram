@@ -98,4 +98,15 @@ module.exports = {
       );
     });
   },
+  allMyRoom: (myid) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT  room_random_number FROM room_chat WHERE user_b =${myid}`,
+        (error, result) => {
+          console.log(error);
+          !error ? resolve(result) : reject(new Error(error));
+        }
+      );
+    });
+  },
 };

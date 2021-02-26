@@ -10,6 +10,7 @@ const {
   countUserModel,
   autoUpdateLocation,
   deletePhoto,
+  allMyRoom,
 } = require("../model/m_user");
 const fs = require("fs");
 
@@ -172,11 +173,22 @@ module.exports = {
         if (err) {
           throw err;
         } else {
-          result = await deletePhoto(user_id);
+          await deletePhoto(user_id);
           return helper.response(response, 200, "Photo has been deleted");
         }
       });
     } catch (error) {
+      return helper.response(response, 400, "Bad Request", error);
+    }
+  },
+  getMyRooms: async (request, response) => {
+    try {
+      const { id } = request.params;
+      console.log(request.body);
+      const result = await allMyRoom(id);
+      return helper.response(response, 200, "myrooms are gotten", result);
+    } catch {
+      console.log(error);
       return helper.response(response, 400, "Bad Request", error);
     }
   },
